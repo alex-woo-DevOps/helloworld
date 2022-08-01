@@ -19,16 +19,17 @@ jobs:
   # This workflow contains a single job called "build"
   plan:
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         aws-env: [mdev, msta, mpro]
         include:
           - aws-env: mdev
-            aws-acc: msta
+            aws-acc: MSTA
           - aws-env: msta
-            aws-acc: msta
+            aws-acc: MSTA
           - aws-env: mpro
-            aws-acc: mpro
+            aws-acc: MPRO
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -36,8 +37,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.TOOLS_ACCOUNT_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.TOOLS_ACCOUNT_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.TOOLS_${{ matrix.aws-acc }}_ACCOUNT_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TOOLS_${{ matrix.aws-acc }}_ACCOUNT_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REGION }}
           role-duration-seconds: 1200
           role-session-name: GitActionDeploymentSession
@@ -50,7 +51,7 @@ jobs:
           cdk --version
           aws s3 ls
           npm install
-      - name: Run CDK diff on ${{ matrix.aws-env }}
+      - name: plan-${{ matrix.aws-env }}
         run: |
           npm run build
           echo ${{ matrix.aws-acc }}
