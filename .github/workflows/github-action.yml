@@ -49,8 +49,9 @@ jobs:
           sudo npm install -g aws-cdk@2.33.0
           cdk --version
           aws s3 ls
+          npm install
       - name: Run CDK diff on ${{ matrix.aws-env }}
         run: |
-          npm install
           npm run build
+          cat ${{ matrix.aws-acc }}
           cdk diff 
