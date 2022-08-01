@@ -27,6 +27,7 @@ jobs:
         uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
         with:
           aws-env: mdev
+          #secrets:
   
   hold-mdev:
     runs-on: ubuntu-latest

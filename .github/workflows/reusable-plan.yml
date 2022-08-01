@@ -8,9 +8,9 @@ on:
         type: string
     secrets:
       TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID:
-        required: true
+        #required: true
       TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY:
-        required: true
+        #required: true
 
 jobs:
   # This workflow contains a single job called "build"
