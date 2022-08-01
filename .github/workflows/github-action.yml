@@ -20,14 +20,11 @@ env:
 jobs:
   # This workflow contains a single job called "build"
   plan-mdev:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Run Plan
-        uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-        with:
-          aws-env: mdev
-          #secrets:
+    name: Run Plan
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+    with:
+      aws-env: mdev
+      #secrets:
   
   hold-mdev:
     runs-on: ubuntu-latest
