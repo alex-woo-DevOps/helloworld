@@ -25,8 +25,10 @@ jobs:
     with:
       AWS-ENV: mdev
       REGION: ap-southeast-1
-      #secrets:
-  
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+    
   hold-mdev:
     runs-on: ubuntu-latest
     needs: plan-mdev
