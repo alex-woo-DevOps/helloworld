@@ -42,4 +42,6 @@ jobs:
           aws s3 ls
       - name: Run CDK diff on vdev
         run: |
+          npm install
+          npm run build
           cdk diff
