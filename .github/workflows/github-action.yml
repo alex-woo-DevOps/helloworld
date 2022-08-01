@@ -37,7 +37,7 @@ jobs:
       # Installs CDK and other prerequisites
       - name: Prerequisite Installation
         run: |
-          sudo npm install -g aws-cdk@1.31.0
+          sudo npm install -g aws-cdk@2.33.0
           cdk --version
           aws s3 ls
       - name: Run CDK diff on vdev
