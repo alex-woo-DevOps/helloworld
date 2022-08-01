@@ -70,6 +70,9 @@ jobs:
     needs: plan-mdev
     environment:
       name: MintedCdkAlarmsStack-mdev
+    steps:
+      - name: Hold
+        run: echo "Start Deployment..."
   deploy:
     runs-on: ubuntu-latest
     strategy:
@@ -79,7 +82,7 @@ jobs:
           - aws-env: mdev
           - aws-env: msta
           - aws-env: mpro
-
+    needs: hold-mdev
     steps:
       - name: Checkout
         uses: actions/checkout@v2
