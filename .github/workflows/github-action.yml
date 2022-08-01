@@ -67,7 +67,7 @@ jobs:
           cdk diff 
   hold-mdev:
     runs-on: ubuntu-latest
-    needs: [plan-mdev]
+    needs: plan
     environment:
       name: MintedCdkAlarmsStack-mdev
     steps:
