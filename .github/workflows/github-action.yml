@@ -19,7 +19,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  plan:
+  plan-mdev:
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
@@ -31,43 +31,12 @@ jobs:
           - aws-env: mpro
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Sets up AWS profile.
-      - name: Configure msta AWS credentials
-        if: ${{ matrix.aws-env }} == 'mdev' || ${{ matrix.aws-env }} == 'msta'
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.REGION }}
-          role-duration-seconds: 1200
-          role-session-name: GitActionDeploymentSession
-          #role-to-assume: ${{ secrets.CROSS_ACCOUNT_ROLE }}
-      - name: Configure mpro AWS credentials
-        if: ${{ matrix.aws-env }} == 'mdev' || ${{ matrix.aws-env }} == 'msta'
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.REGION }}
-          role-duration-seconds: 1200
-          role-session-name: GitActionDeploymentSession
-
-      # Installs CDK and other prerequisites
-      - name: Prerequisite Installation
-        run: |
-          sudo npm install -g aws-cdk@2.33.0
-          cdk --version
-          aws s3 ls
-          npm install
-      - name: plan-${{ matrix.aws-env }}
-        run: |
-          npm run build
-          cdk diff 
+      - name: Run Plan
+        uses: uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+        
   hold-mdev:
     runs-on: ubuntu-latest
-    needs: plan
+    needs: plan-mdev
     environment:
       name: MintedCdkAlarmsStack-mdev
     steps:
