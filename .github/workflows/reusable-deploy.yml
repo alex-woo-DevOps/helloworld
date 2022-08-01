@@ -1,0 +1,56 @@
+name: Reusable Workflow user
+
+on:
+  workflow_call:
+    inputs:
+      AWS-ENV:
+        required: true
+        type: string
+      REGION:
+        required: true
+        type: string
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID:
+        required: true
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  # This workflow contains a single job called "build"
+  deploy:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Sets up AWS profile.
+      - name: Configure msta AWS credentials
+        if: ${{ inputs.AWS-ENV }} == 'mdev' || ${{ inputs.AWS-ENV }} == 'msta'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TOOLS_ACCOUNT_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TOOLS_ACCOUNT_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.REGION }}
+          role-duration-seconds: 1200
+          role-session-name: GitActionDeploymentSession
+          #role-to-assume: ${{ secrets.CROSS_ACCOUNT_ROLE }}
+      - name: Configure mpro AWS credentials
+        if: ${{ inputs.AWS-ENV }} == 'mdev' || ${{ inputs.AWS-ENV }} == 'msta'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TOOLS_ACCOUNT_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TOOLS_ACCOUNT_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.REGION }}
+          role-duration-seconds: 1200
+          role-session-name: GitActionDeploymentSession
+      # Installs CDK and other prerequisites
+      - name: Prerequisite Installation
+        run: |
+          sudo npm install -g aws-cdk@2.33.0
+          cdk --version
+          aws s3 ls
+          npm install
+      - name: plan-${{ inputs.AWS-ENV }}
+        run: |
+          npm run build
+          cdk diff 
