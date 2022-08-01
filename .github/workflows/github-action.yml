@@ -15,7 +15,6 @@ on:
 jobs:
   # mdev
   plan-mdev:
-    name: Run Plan
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
       AWS-ENV: mdev
@@ -34,7 +33,6 @@ jobs:
         run: echo "Start Deployment..."
   
   deploy-mdev:
-    name: Run Deployment
     needs: hold-mdev
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
