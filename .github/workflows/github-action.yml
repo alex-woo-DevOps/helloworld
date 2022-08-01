@@ -11,13 +11,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  REGION: ap-southeast-1 # Deployment Region
-  NON_PROD_AWS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-  NON_PROD_AWS_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-  PROD_AWS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
-  PROD_AWS_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
-  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # mdev
@@ -80,3 +73,33 @@ jobs:
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+  # mpro
+  plan-mpro:
+    name: Run Plan
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+    with:
+      AWS-ENV: mpro
+      REGION: ap-southeast-1
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
+
+  hold-mpro:
+    runs-on: ubuntu-latest
+    needs: plan-mpro
+    environment:
+      name: MintedCdkAlarmsStack-mpro
+    steps:
+      - name: Hold
+        run: echo "Start Deployment..."
+  
+  deploy-mpro:
+    name: Run Deployment
+    needs: hold-mpro
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
+    with:
+      AWS-ENV: mpro
+      REGION: ap-southeast-1
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
