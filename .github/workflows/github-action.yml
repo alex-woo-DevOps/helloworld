@@ -23,7 +23,8 @@ jobs:
     name: Run Plan
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      aws-env: mdev
+      AWS-ENV: mdev
+      REGION: ap-southeast-1
       #secrets:
   
   hold-mdev:
