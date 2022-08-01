@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGION: us-east-1 # Deployment Region
+  REGION: ap-southeast-1 # Deployment Region
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,3 +40,6 @@ jobs:
           sudo npm install -g aws-cdk@1.31.0
           cdk --version
           aws s3 ls
+      - name: Run CDK diff on vdev
+        run: |
+          cdk diff
