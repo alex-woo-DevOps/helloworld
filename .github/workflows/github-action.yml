@@ -32,8 +32,8 @@ jobs:
 
     steps:
       - name: Run Plan
-        uses: uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-        
+        uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+
   hold-mdev:
     runs-on: ubuntu-latest
     needs: plan-mdev
