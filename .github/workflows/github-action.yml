@@ -28,9 +28,11 @@ jobs:
             aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
             aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
           - aws-env: msta
-            aws-acc: MSTA
+            aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+            aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
           - aws-env: mpro
-            aws-acc: MPRO
+            aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+            aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -55,5 +57,4 @@ jobs:
       - name: plan-${{ matrix.aws-env }}
         run: |
           npm run build
-          echo ${{ matrix.aws-acc }}
           cdk diff 
