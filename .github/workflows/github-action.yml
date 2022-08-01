@@ -28,8 +28,8 @@ jobs:
       AWS-ENV: mdev
       REGION: ap-southeast-1
     secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ env.NON_PROD_AWS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ env.NON_PROD_AWS_ACCESS_KEY }}
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
 
   hold-mdev:
     runs-on: ubuntu-latest
@@ -48,5 +48,5 @@ jobs:
       AWS-ENV: mdev
       REGION: ap-southeast-1
     secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ env.NON_PROD_AWS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ env.NON_PROD_AWS_ACCESS_KEY }}
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
