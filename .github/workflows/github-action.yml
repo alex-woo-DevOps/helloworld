@@ -20,19 +20,22 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     continue-on-error: true
+    env:
+      THE_AWS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      THE_AWS_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
     strategy:
       matrix:
         aws-env: [mdev, msta, mpro]
         include:
           - aws-env: mdev
-            aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-            aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+            aws-acc-key-id: ${{ env.THE_AWS_KEY_ID }}
+            aws-acc-key: ${{ env.THE_AWS_ACCESS_KEY }}
           - aws-env: msta
-            aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-            aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+            aws-acc-key-id: ${{ env.THE_AWS_KEY_ID }}
+            aws-acc-key: ${{ env.THE_AWS_ACCESS_KEY }}
           - aws-env: mpro
-            aws-acc-key-id: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-            aws-acc-key: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+            aws-acc-key-id: ${{ env.THE_AWS_KEY_ID }}
+            aws-acc-key: ${{ env.THE_AWS_ACCESS_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
