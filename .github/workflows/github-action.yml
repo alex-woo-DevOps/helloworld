@@ -43,7 +43,6 @@ jobs:
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
   # msta
   plan-msta:
-    name: Run Plan
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
       AWS-ENV: msta
@@ -62,7 +61,6 @@ jobs:
         run: echo "Start Deployment..."
   
   deploy-msta:
-    name: Run Deployment
     needs: hold-msta
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
@@ -73,7 +71,6 @@ jobs:
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
   # mpro
   plan-mpro:
-    name: Run Plan
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
       AWS-ENV: mpro
@@ -92,7 +89,6 @@ jobs:
         run: echo "Start Deployment..."
   
   deploy-mpro:
-    name: Run Deployment
     needs: hold-mpro
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
