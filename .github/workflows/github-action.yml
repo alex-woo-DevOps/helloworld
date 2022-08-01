@@ -53,5 +53,5 @@ jobs:
       - name: Run CDK diff on ${{ matrix.aws-env }}
         run: |
           npm run build
-          cat ${{ matrix.aws-acc }}
+          echo ${{ matrix.aws-acc }}
           cdk diff 
