@@ -17,9 +17,19 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  plan-vdev:
+  plan:
     name: CDK diff vdev
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        aws-env: [mdev, msta, mpro]
+        include:
+          - aws-env: mdev
+            aws-acc: msta
+          - aws-env: msta
+            aws-acc: msta
+          - aws-env: mpro
+            aws-acc: mpro
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,8 +50,8 @@ jobs:
           sudo npm install -g aws-cdk@2.33.0
           cdk --version
           aws s3 ls
-      - name: Run CDK diff on vdev
+      - name: Run CDK diff on ${{ matrix.aws-env }}
         run: |
           npm install
           npm run build
-          cdk diff
+          cdk diff MintedCdkAlarmsStack-${{ matrix.aws-env }}
