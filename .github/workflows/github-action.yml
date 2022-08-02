@@ -1,4 +1,4 @@
-name: Minted CDK Observability CI/CD
+name: MSTA & MPRO Deployment
 
 on:
   # Triggers the workflow on tag events but only for the main branch
@@ -10,34 +10,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # mdev
-  plan-mdev:
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-    with:
-      AWS-ENV: mdev
-      REGION: ap-southeast-1
-    secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-
-  hold-mdev:
-    runs-on: ubuntu-latest
-    needs: plan-mdev
-    environment:
-      name: MintedCdkAlarmsStack-mdev
-    steps:
-      - name: Hold
-        run: echo "Start Deployment..."
-  
-  deploy-mdev:
-    needs: hold-mdev
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
-    with:
-      AWS-ENV: mdev
-      REGION: ap-southeast-1
-    secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
   # msta
   plan-msta:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
