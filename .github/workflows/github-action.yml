@@ -1,13 +1,9 @@
 name: Minted CDK Observability CI/CD
 
 on:
-  # Triggers the workflow on push events but only for the main branch
-  push:
-    branches: 
-      - main
-  pull_request:
-    branches: 
-      - main
+  # Triggers the workflow on tag events but only for the main branch
+  tags:
+      - 'v*.*.*'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
