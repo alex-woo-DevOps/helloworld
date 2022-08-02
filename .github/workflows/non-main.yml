@@ -1,11 +1,8 @@
 name: PR Checks
 
 on:
-  # Do not trigger on push, otherwise $ will burn out. Push to main branch should be only occur in emergency.
+  # Do not trigger on push, otherwise $ will burn out. By default we should not Push to main branch.
   # Triggers the workflow on PR events but only for the main branch
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - '**'
