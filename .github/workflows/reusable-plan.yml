@@ -9,6 +9,9 @@ on:
       REGION:
         required: true
         type: string
+      STACK:
+        required: true
+        type: string
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID:
         required: true
@@ -16,7 +19,7 @@ on:
         required: true
 
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job called "plan"
   plan:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -43,4 +46,4 @@ jobs:
       - name: plan-${{ inputs.AWS-ENV }}
         run: |
           npm run build
-          cdk diff 
+          cdk diff ${{ inputs.STACK }}
