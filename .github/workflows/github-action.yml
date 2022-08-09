@@ -16,6 +16,7 @@ jobs:
     with:
       AWS-ENV: msta
       REGION: ap-southeast-1
+      STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
@@ -35,6 +36,7 @@ jobs:
     with:
       AWS-ENV: msta
       REGION: ap-southeast-1
+      STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
@@ -44,6 +46,7 @@ jobs:
     with:
       AWS-ENV: mpro
       REGION: ap-southeast-1
+      STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
@@ -63,6 +66,7 @@ jobs:
     with:
       AWS-ENV: mpro
       REGION: ap-southeast-1
+      STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}

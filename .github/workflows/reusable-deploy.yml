@@ -9,6 +9,9 @@ on:
       REGION:
         required: true
         type: string
+      STACK:
+        required: true
+        type: string
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID:
         required: true
