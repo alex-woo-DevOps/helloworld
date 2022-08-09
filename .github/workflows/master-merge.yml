@@ -22,6 +22,7 @@ jobs:
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
 
   hold-mdev:
+    if: needs.plan-mdev.result == 'success'
     runs-on: ubuntu-latest
     needs: plan-mdev
     environment:
@@ -31,6 +32,7 @@ jobs:
         run: echo "Start Deployment..."
   
   deploy-mdev:
+    if: needs.hold-mdev.result == 'success'
     needs: hold-mdev
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
