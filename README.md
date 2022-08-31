@@ -15,4 +15,3 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 * `cdk synth`       emits the synthesized CloudFormation template
 *
 
-My name is Alex?
