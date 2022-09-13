@@ -53,8 +53,7 @@ jobs:
         run: |
           npm run build
           touch ./tempstdfile
-          cdk diff ${{ inputs.STACK }} 2>&1 | tee -a ./tempstdfile
-          sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' ./tempstdfile
+          cdk diff ${{ inputs.STACK }} 2>&1 | awk -v ORS='\\n' '1' | tee -a ./tempstdfile
           echo "::set-output name=cdklogs::`cat ./tempstdfile`"
         
       # Update Pull Request with details from plan, validate and init
