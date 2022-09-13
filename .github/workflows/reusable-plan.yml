@@ -22,6 +22,7 @@ jobs:
   # This workflow contains a single job called "plan"
   plan:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,7 +44,6 @@ jobs:
           aws s3 ls
           npm install
       - name: plan-${{ inputs.AWS-ENV }}
-        continue-on-error: true
         run: |
           npm run build
           cdk diff ${{ inputs.STACK }}
