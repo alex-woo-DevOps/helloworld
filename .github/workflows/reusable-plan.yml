@@ -18,6 +18,11 @@ on:
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY:
         required: true
 
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+  
 jobs:
   # This workflow contains a single job called "plan"
   cdk-plan:
