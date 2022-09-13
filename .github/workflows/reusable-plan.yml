@@ -3,7 +3,7 @@ name: Reusable Plan Workflow
 on:
   workflow_call:
     inputs:
-      AWS-ENV:
+      ENV:
         required: true
         type: string
       REGION:
@@ -48,7 +48,7 @@ jobs:
           cdk --version
           aws s3 ls
           npm install
-      - name: plan-${{ inputs.AWS-ENV }}
+      - name: plan-${{ inputs.ENV }}
         id: plan
         run: |
           npm run build
@@ -63,9 +63,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `### ${{ inputs.ENV }} CICD Summary.
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             
             <details><summary>Show Plan</summary>
 
