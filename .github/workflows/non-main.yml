@@ -1,8 +1,11 @@
-name: PR Checks
+name: non-prod
 
 on:
   # Do not trigger on push, otherwise $ will burn out. By default we should not Push to main branch.
   # Triggers the workflow on PR events but only for the main branch
+  push:
+    branches:
+      - 'main'
   pull_request:
     branches:
       - '**'
