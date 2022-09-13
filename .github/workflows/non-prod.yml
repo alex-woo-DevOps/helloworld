@@ -47,23 +47,36 @@ jobs:
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-  # msta
-  # plan-msta:
-  #   uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-  #   with:
-  #     AWS-ENV: msta
-  #     REGION: ap-southeast-1
-  #     STACK: " "
-  #   secrets:
-  #     TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-  #     TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-  # mpro
-  # plan-mpro:
-  #   uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-  #   with:
-  #     AWS-ENV: mpro
-  #     REGION: ap-southeast-1
-  #     STACK: " "
-  #   secrets:
-  #     TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
-  #     TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
+  # vsta
+  plan-vsta:
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+    with:
+      AWS-ENV: vsta
+      REGION: ap-southeast-1
+      STACK: " "
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+  
+  hold-vsta:
+    if: needs.plan-vsta.result == 'success' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: plan-vsta
+    environment:
+      name: vsta
+    steps:
+      - name: Hold
+        run: echo "Start Deployment..."
+  
+  deploy-vsta:
+    if: needs.hold-vsta.result == 'success' && github.event_name == 'push'
+    needs: hold-vsta
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
+    with:
+      AWS-ENV: vsta
+      REGION: ap-southeast-1
+      STACK: " "
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+
