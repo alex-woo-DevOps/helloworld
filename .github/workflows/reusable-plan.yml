@@ -73,6 +73,9 @@ jobs:
 
             \`\`\`\n
             ${process.env.PLAN}
+
+            ${{ steps.plan.outcomes.cdklogs }}
+            
             \`\`\`
 
             </details>
