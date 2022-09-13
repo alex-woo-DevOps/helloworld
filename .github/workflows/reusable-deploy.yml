@@ -3,7 +3,7 @@ name: Reusable Deploy Workflow
 on:
   workflow_call:
     inputs:
-      AWS-ENV:
+      ENV:
         required: true
         type: string
       REGION:
@@ -43,7 +43,7 @@ jobs:
           cdk --version
           aws s3 ls
           npm install
-      - name: plan-${{ inputs.AWS-ENV }}
+      - name: plan-${{ inputs.ENV }}
         run: |
           npm run build
           cdk diff 
