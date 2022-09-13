@@ -51,12 +51,3 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
-  cdk-hold:
-    if: needs.cdk-plan.result == 'success' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    needs: cdk-plan
-    environment:
-      name: ${{ inputs.ENV }}
-    steps:
-      - name: Hold
-        run: echo "Start deploying..."

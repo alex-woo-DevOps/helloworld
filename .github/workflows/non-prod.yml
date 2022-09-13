@@ -15,17 +15,34 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # mdev
-  plan:
-    strategy:
-      matrix:
-        matrix-inputs: 
-          - ['vdev', 'ap-southeast-4']  
-          - ['vsta', 'ap-southeast-1']
+  # vdev
+  plan-vdev:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      AWS-ENV: ${{ matrix.matrix-inputs[0] }}
-      REGION: ${{ matrix.matrix-inputs[1] }}
+      AWS-ENV: vdev
+      REGION: ap-southeast-1
+      STACK: " "
+    secrets:
+      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+  
+  hold-vdev:
+    if: needs.plan-vdev.result == 'success' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: plan-vdev
+    environment:
+      name: vdev
+    steps:
+      - name: Hold
+        run: echo "Start Deployment..."
+  
+  deploy-vdev:
+    if: needs.hold-vdev.result == 'success' && github.event_name == 'push'
+    needs: hold-vdev
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
+    with:
+      AWS-ENV: vdev
+      REGION: ap-southeast-1
       STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
