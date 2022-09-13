@@ -44,9 +44,35 @@ jobs:
           aws s3 ls
           npm install
       - name: plan-${{ inputs.AWS-ENV }}
+        id: plan
         run: |
           npm run build
           cdk diff ${{ inputs.STACK }}
+      # Update Pull Request with details from plan, validate and init
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `### ${{ inputs.ENV }} CICD Summary.
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+            </details>
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
       # If plan fails
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
