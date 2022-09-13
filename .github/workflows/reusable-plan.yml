@@ -52,9 +52,10 @@ jobs:
         id: plan
         run: |
           npm run build
-          touch ./stdfile
-          cdk diff ${{ inputs.STACK }} 2>&1 | tee -a ./stdfile
-          echo "::set-output name=cdklogs::`cat ./stdfile`"
+          touch ./tempstdfile
+          cdk diff ${{ inputs.STACK }} 2>&1 | tee -a ./tempstdfile
+          sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' ./tempstdfile
+          echo "::set-output name=cdklogs::`cat ./tempstdfile`"
         
       # Update Pull Request with details from plan, validate and init
       - name: Update Pull Request
@@ -72,7 +73,6 @@ jobs:
 
             \`\`\`\n
             ${process.env.PLAN}
-            ${{ steps.plan.outputs.cdklogs }} 
             \`\`\`
 
             </details>
