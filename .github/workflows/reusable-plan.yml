@@ -53,6 +53,8 @@ jobs:
         run: |
           npm run build
           cdk diff ${{ inputs.STACK }}
+        continue-on-error: true
+        
       # Update Pull Request with details from plan, validate and init
       - name: Update Pull Request
         uses: actions/github-script@v6
