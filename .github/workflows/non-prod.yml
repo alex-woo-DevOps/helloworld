@@ -19,7 +19,7 @@ jobs:
   plan-vdev:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      AWS-ENV: vdev
+      ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
@@ -41,7 +41,7 @@ jobs:
     needs: hold-vdev
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
-      AWS-ENV: vdev
+      ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
@@ -51,7 +51,7 @@ jobs:
   plan-vsta:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      AWS-ENV: vsta
+      ENV: vsta
       REGION: ap-southeast-1
       STACK: " "
     secrets:
@@ -73,7 +73,7 @@ jobs:
     needs: hold-vsta
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
-      AWS-ENV: vsta
+      ENV: vsta
       REGION: ap-southeast-1
       STACK: " "
     secrets:
