@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         matrix-inputs: 
-          - ['vdev', 'ap-southeast-1']  
+          - ['vdev', 'ap-southeast-4']  
           - ['vsta', 'ap-southeast-1']
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
