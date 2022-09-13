@@ -13,32 +13,37 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # mdev
-  plan-mdev:
+  plan:
+    strategy:
+      matrix:
+        matrix-inputs: 
+          - ['vdev', 'ap-southeast-1']  
+          - ['vsta', 'ap-southeast-1']
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      AWS-ENV: mdev
-      REGION: ap-southeast-1
+      AWS-ENV: ${{ matrix.matrix-inputs[0] }}
+      REGION: ${{ matrix.matrix-inputs[1] }}
       STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
   # msta
-  plan-msta:
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-    with:
-      AWS-ENV: msta
-      REGION: ap-southeast-1
-      STACK: " "
-    secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+  # plan-msta:
+  #   uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+  #   with:
+  #     AWS-ENV: msta
+  #     REGION: ap-southeast-1
+  #     STACK: " "
+  #   secrets:
+  #     TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
+  #     TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
   # mpro
-  plan-mpro:
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
-    with:
-      AWS-ENV: mpro
-      REGION: ap-southeast-1
-      STACK: " "
-    secrets:
-      TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
-      TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
+  # plan-mpro:
+  #   uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+  #   with:
+  #     AWS-ENV: mpro
+  #     REGION: ap-southeast-1
+  #     STACK: " "
+  #   secrets:
+  #     TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MPRO_ACCOUNT_ACCESS_KEY_ID }}
+  #     TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MPRO_ACCOUNT_SECRET_ACCESS_KEY }}
