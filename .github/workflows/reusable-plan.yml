@@ -52,8 +52,8 @@ jobs:
         id: plan
         run: |
           npm run build
-          cdk diff ${{ inputs.STACK }}
-        continue-on-error: true
+          cdk diff ${{ inputs.STACK }} 2>&1 | tee -a stdfile
+          echo "::set-output name=cdklogs::`cat stdfile`"
         
       # Update Pull Request with details from plan, validate and init
       - name: Update Pull Request
@@ -71,6 +71,7 @@ jobs:
 
             \`\`\`\n
             ${process.env.PLAN}
+            ${{ steps.plan.outputs.cdklogs }} 
             \`\`\`
 
             </details>
