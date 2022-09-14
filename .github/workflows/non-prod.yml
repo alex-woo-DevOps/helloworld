@@ -17,7 +17,7 @@ on:
 jobs:
   # vdev
   plan-vdev:
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+    uses: alex-woo-DevOps/helloworld/.github/workflows/resuable-workflows/reusable-plan.yml@main
     with:
       ENV: vdev
       REGION: ap-southeast-1
@@ -28,7 +28,7 @@ jobs:
   deploy-vdev:
     if: needs.plan-vdev.result == 'success' && github.event_name == 'push'
     needs: plan-vdev
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
+    uses: alex-woo-DevOps/helloworld/.github/workflows/resuable-workflows/reusable-deploy.yml@main
     with:
       ENV: vdev
       REGION: ap-southeast-1
@@ -39,7 +39,7 @@ jobs:
   
   # vsta
   plan-vsta:
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
+    uses: alex-woo-DevOps/helloworld/.github/workflows/resuable-workflows/reusable-plan.yml@main
     with:
       ENV: vsta
       REGION: ap-southeast-1
@@ -61,7 +61,7 @@ jobs:
   deploy-vsta:
     if: needs.hold-vsta.result == 'success' && github.event_name == 'push'
     needs: hold-vsta
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
+    uses: alex-woo-DevOps/helloworld/.github/workflows/resuable-workflows/reusable-deploy.yml@main
     with:
       ENV: vsta
       REGION: ap-southeast-1
