@@ -52,10 +52,9 @@ jobs:
         id: plan
         run: |
           npm run build
-          touch ./tempstdfile
           cdk diff ${{ inputs.STACK }} 2>&1 | tee -a ./tempstdfile
-          awk -v ORS='\\n' '1' ./tempstdfile
-          echo "::set-output name=cdklogs::`cat ./tempstdfile`"
+          awk -v ORS='\\n' '1' ./tempstdfile > ./stdfile
+          echo "::set-output name=cdklogs::`cat ./stdfile`"
         
       # Update Pull Request with details from plan, validate and init
       - name: Update Pull Request

@@ -30,8 +30,6 @@ jobs:
     if: needs.plan-vdev.result == 'success' && github.event_name == 'push'
     needs: plan-vdev
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
-    environment:
-      name: vdev
     with:
       AWS-ENV: vdev
       REGION: ap-southeast-1
