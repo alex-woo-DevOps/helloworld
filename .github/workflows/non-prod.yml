@@ -16,11 +16,10 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # vdev
-  # vdev
   plan-vdev:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      AWS-ENV: vdev
+      ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
@@ -31,7 +30,7 @@ jobs:
     needs: plan-vdev
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
-      AWS-ENV: vdev
+      ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
