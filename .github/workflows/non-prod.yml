@@ -16,37 +16,30 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # vdev
+  # vdev
   plan-vdev:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
     with:
-      ENV: vdev
+      AWS-ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
-  
-  hold-vdev:
+  deploy-vdev:
     if: needs.plan-vdev.result == 'success' && github.event_name == 'push'
-    runs-on: ubuntu-latest
     needs: plan-vdev
+    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     environment:
       name: vdev
-    steps:
-      - name: Hold
-        run: echo "Start Deployment..."
-  
-  deploy-vdev:
-    if: needs.hold-vdev.result == 'success' && github.event_name == 'push'
-    needs: hold-vdev
-    uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-deploy.yml@main
     with:
-      ENV: vdev
+      AWS-ENV: vdev
       REGION: ap-southeast-1
       STACK: " "
     secrets:
       TOOLS_ACCOUNT_ACCESS_KEY_ID: ${{ secrets.TOOLS_MSTA_ACCOUNT_ACCESS_KEY_ID }}
       TOOLS_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.TOOLS_MSTA_ACCOUNT_SECRET_ACCESS_KEY }}
+  
   # vsta
   plan-vsta:
     uses: alex-woo-DevOps/helloworld/.github/workflows/reusable-plan.yml@main
